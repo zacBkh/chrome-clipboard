@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Clipboard",
+  "version": "1.0",
+  "description": "Never type your frequently used info again.",
+
+  "action": {
+    "default_popup": "index.html"
+  }
+}
