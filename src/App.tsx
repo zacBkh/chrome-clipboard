@@ -8,7 +8,6 @@ import InfoDisplayer from './components/info-displayers'
 import {
   setChromeStorage,
   getChromeStorageAll,
-  getChromeStorage,
 } from './components/services/chrome-storage'
 
 import { FIELD_TYPES, StoredDataTypes } from './constants'
@@ -28,6 +27,7 @@ const App = () => {
 
   // on button click
   const handleAddInfoRequest = () => {
+    setselectedFieldType(SELECT_DEFAULT)
     console.log('asked add info')
     setStep(1)
   }
@@ -53,22 +53,6 @@ const App = () => {
 
     // Set data in chrome storage
     setChromeStorage(selectedFieldType, infoData)
-
-    // To get all
-    try {
-      const allDataStored = await getChromeStorageAll()
-      console.log('allDataStored', allDataStored)
-    } catch (error) {
-      console.error('Error while getting data:', error)
-    }
-
-    // To get ONE
-    try {
-      const specificData = await getChromeStorage(selectedFieldType)
-      console.log('allDataStored', specificData)
-    } catch (error) {
-      console.error('Error while getting data:', error)
-    }
   }
 
   // Fetch all saved info on render
@@ -93,30 +77,39 @@ const App = () => {
     }
     fetchData()
 
-    // // Listen for changes in chrome storage
-    // const storageChangeListener = (changes: {
-    //   [key: string]: chrome.storage.StorageChange
-    // }) => {
-    //   // Handle the changes here
-    //   console.log('Storage changes:', changes)
+    try {
+      // Listen for changes in chrome storage
+      const storageChangeListener = (changes: {
+        [key: string]: chrome.storage.StorageChange
+      }) => {
+        fetchData()
+      }
+      chrome.storage.onChanged.addListener(storageChangeListener)
 
-    //   // Fetch updated data
-    //   fetchData()
-    // }
-
-    // chrome.storage.onChanged.addListener(storageChangeListener)
-
-    // // Clean up the listener when component unmounts
-    // return () => {
-    //   chrome.storage.onChanged.removeListener(storageChangeListener)
-    // }
+      // Clean up the listener when component unmounts
+      return () => {
+        chrome.storage.onChanged.removeListener(storageChangeListener)
+      }
+    } catch (error) {
+      console.log(
+        'there has been an error registering to the onChanged event',
+        error
+      )
+    }
   }, [])
 
   return (
     <div className="min-h-screen bg-[#282c34] flex flex-col justify-between text-white p-4 text-base">
       <div className="flex flex-col gap-y-2 items-start">
         {allStoredData?.map((item) => (
-          <InfoDisplayer data={item.value} fieldType={item.property} />
+          <InfoDisplayer
+            fieldType={item.property}
+            data={item.value}
+            value={infoData}
+            onEditionRequest={(field) => setselectedFieldType(field)}
+            onTypeInfo={handleTypeNewInfo}
+            onConfirmInfoEdit={handleConfirmedNewInfo}
+          />
         ))}
       </div>
 
@@ -146,19 +139,6 @@ const App = () => {
         ) : (
           ''
         )}
-
-        {/* <img src={logo} className="App-logo" alt="logo" />
-          <p className="underline">
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a> */}
       </div>
     </div>
   )

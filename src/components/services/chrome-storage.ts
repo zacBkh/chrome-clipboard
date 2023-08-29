@@ -8,7 +8,7 @@ export const setChromeStorage: setChromeStorageTypes = (
   infoData
 ) => {
   try {
-    chrome.storage.local.set({ [selectedFieldType]: infoData }, () => {
+    chrome.storage.sync.set({ [selectedFieldType]: infoData }, () => {
       console.log('Data stored')
     })
   } catch (error) {
@@ -16,13 +16,15 @@ export const setChromeStorage: setChromeStorageTypes = (
   }
 }
 
-interface getChromeStorageTypes {
+interface interactWithChromeStorageTypes {
   (selectedFieldType: FIELD_TYPES): any
 }
 
-export const getChromeStorage: getChromeStorageTypes = (selectedFieldType) => {
+export const getChromeStorage: interactWithChromeStorageTypes = (
+  selectedFieldType
+) => {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get([selectedFieldType], (result) => {
+    chrome.storage.sync.get([selectedFieldType], (result) => {
       resolve(result)
     })
   })
@@ -30,15 +32,15 @@ export const getChromeStorage: getChromeStorageTypes = (selectedFieldType) => {
 
 export const getChromeStorageAll = (): any => {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get(null, (data) => {
+    chrome.storage.sync.get(null, (data) => {
       resolve(data)
     })
   })
 }
 
-export const deleteChromeStorage: getChromeStorageTypes = async (
+export const deleteChromeStorage: interactWithChromeStorageTypes = async (
   fieldToDelete
 ) => {
   console.log('fieldToDelete', fieldToDelete)
-  await chrome.storage.local.remove([fieldToDelete])
+  await chrome.storage.sync.remove([fieldToDelete])
 }

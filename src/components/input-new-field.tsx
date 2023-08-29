@@ -23,7 +23,7 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
           onTypeInfo(e.target.value)
         }
         value={value}
-        className="text-black"
+        className="text-white bg-[#16161A] rounded py-1 px-2"
         type={INPUT_TYPES[infoType]}
         id="name"
         required

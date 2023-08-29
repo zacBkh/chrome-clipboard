@@ -25,7 +25,6 @@ const TypeOfField: FC<propsType> = ({ onAddField, field }) => {
         {field === SELECT_DEFAULT && (
           <option value={SELECT_DEFAULT}>Select...</option>
         )}
-
         <option value={EMAIL}>Email</option>
         <option value={FIRST_NAME}>First Name</option>
         <option value={LAST_NAME}>Last Name</option>
