@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react'
 
 import { FIELD_TYPES } from '../constants'
-const { EMAIL, FIRST_NAME, LAST_NAME, COUNTRY } = FIELD_TYPES
+const { EMAIL, FIRST_NAME, LAST_NAME, COUNTRY, SELECT_DEFAULT } = FIELD_TYPES
 
 interface propsType {
   onAddField: (newlySelectedField: FIELD_TYPES) => void
@@ -22,6 +22,10 @@ const TypeOfField: FC<propsType> = ({ onAddField, field }) => {
         className="bg-gray-500"
         onChange={handleSelectChange}
       >
+        {field === SELECT_DEFAULT && (
+          <option value={SELECT_DEFAULT}>Select...</option>
+        )}
+
         <option value={EMAIL}>Email</option>
         <option value={FIRST_NAME}>First Name</option>
         <option value={LAST_NAME}>Last Name</option>
