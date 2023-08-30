@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import { v4 as uuid } from 'uuid'
+
 import AddInfoBtn from './components/add-info-button'
 import TypeOfField from './components/type-of-field'
 import InputNewInfo from './components/input-new-field'
@@ -28,13 +30,11 @@ const App = () => {
   // on button click
   const handleAddInfoRequest = () => {
     setselectedFieldType(SELECT_DEFAULT)
-    console.log('asked add info')
     setStep(1)
   }
 
   // on field type click
   const handleAddField = (newlyselectedFieldType: FIELD_TYPES) => {
-    console.log('specified field', newlyselectedFieldType)
     setInfoData('')
     setselectedFieldType(newlyselectedFieldType)
     setStep(2)
@@ -45,14 +45,27 @@ const App = () => {
     setInfoData(data)
   }
 
-  // confirmed new info
-  const handleConfirmedNewInfo = async () => {
+  // confirmed new info OR ABORT
+  const handleConfirmedNewInfo = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+    abort?: boolean
+  ) => {
     console.log('selectedFieldType', selectedFieldType)
     console.log('infoData', infoData)
+    console.log('abort', abort)
     setStep(0)
 
-    // Set data in chrome storage
-    setChromeStorage(selectedFieldType, infoData)
+    if (!abort) {
+      // if user did not abort (clicked on cross)
+      setChromeStorage(selectedFieldType, infoData)
+    } else {
+      // if user click on cross, put all back to false
+      const updatedData = allStoredData?.map((item) => ({
+        ...item,
+        isUnderEdition: false,
+      }))
+      setAllStoredData(updatedData)
+    }
   }
 
   // Fetch all saved info on render
@@ -66,6 +79,8 @@ const App = () => {
           ([key, value]) => ({
             property: key as FIELD_TYPES,
             value: value as string,
+            id: uuid(),
+            isUnderEdition: false,
           })
         )
 
@@ -98,17 +113,42 @@ const App = () => {
     }
   }, [])
 
+  const handleEditionRequest = (
+    field: FIELD_TYPES,
+    currData: string,
+    id: string
+  ) => {
+    console.log('field', field)
+    console.log('currData', currData)
+    console.log('id', id)
+
+    // Replacing underEdition state
+    const editedData = allStoredData?.map((item) =>
+      item.id === id ? { ...item, isUnderEdition: true } : item
+    )
+    setAllStoredData(editedData)
+
+    setInfoData(currData)
+    setselectedFieldType(field)
+  }
+
   return (
-    <div className="min-h-screen bg-[#282c34] flex flex-col justify-between text-white p-4 text-base">
-      <div className="flex flex-col gap-y-2 items-start">
+    <div className="popUpContainer bg-[#282c34] flex flex-col justify-between text-white p-4 text-base">
+      <div className="flex flex-col items-start">
         {allStoredData?.map((item) => (
           <InfoDisplayer
             fieldType={item.property}
-            data={item.value}
-            value={infoData}
-            onEditionRequest={(field) => setselectedFieldType(field)}
+            data={item.value} //<p>
+            value={infoData} // <input>
+            id={item.id}
+            isUnderEdition={item.isUnderEdition}
+            isAnotherFieldUnderEdition={allStoredData.some(
+              (elem) => elem.isUnderEdition && elem.id !== item.id
+            )}
+            onEditionRequest={handleEditionRequest}
             onTypeInfo={handleTypeNewInfo}
             onConfirmInfoEdit={handleConfirmedNewInfo}
+            key={item.id}
           />
         ))}
       </div>

@@ -17,4 +17,6 @@ export const INPUT_TYPES = {
 export interface StoredDataTypes {
   property: FIELD_TYPES
   value: string
+  id: string
+  isUnderEdition: boolean
 }
