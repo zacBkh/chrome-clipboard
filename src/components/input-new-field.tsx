@@ -1,4 +1,4 @@
-import { FC, ChangeEvent } from 'react'
+import { FC, ChangeEvent, useEffect, useRef } from 'react'
 
 import { FIELD_TYPES, INPUT_TYPES } from '../constants'
 
@@ -13,7 +13,12 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
   value,
   onTypeInfo,
 }) => {
-  console.log('infoType', infoType)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    inputRef?.current?.focus()
+  }, [])
+
   return (
     <div className="flex items-center gap-x-4">
       <label htmlFor="name">Type your info</label>
@@ -27,6 +32,7 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
         type={INPUT_TYPES[infoType]}
         id="name"
         required
+        ref={inputRef}
       />
     </div>
   )

@@ -2,15 +2,13 @@ import { useState, useEffect } from 'react'
 
 import { v4 as uuid } from 'uuid'
 
-import AddInfoBtn from './components/add-info-button'
-import TypeOfField from './components/type-of-field'
-import InputNewInfo from './components/input-new-field'
 import InfoDisplayer from './components/info-displayers'
+import Footer from './components/footer'
 
 import {
   setChromeStorage,
   getChromeStorageAll,
-} from './components/services/chrome-storage'
+} from './services/chrome-storage'
 
 import { FIELD_TYPES, StoredDataTypes } from './constants'
 const { SELECT_DEFAULT } = FIELD_TYPES
@@ -72,17 +70,15 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allDataStored = await getChromeStorageAll()
-        console.log('allDataStored', allDataStored)
+        const allData = await getChromeStorageAll()
+        console.log('allData', allData)
 
-        const allDataArray = Object.entries(allDataStored).map(
-          ([key, value]) => ({
-            property: key as FIELD_TYPES,
-            value: value as string,
-            id: uuid(),
-            isUnderEdition: false,
-          })
-        )
+        const allDataArray = Object.entries(allData).map(([key, value]) => ({
+          property: key as FIELD_TYPES,
+          value: value as string,
+          id: uuid(),
+          isUnderEdition: false,
+        }))
 
         console.log('allDataArray', allDataArray)
         setAllStoredData(allDataArray)
@@ -122,6 +118,8 @@ const App = () => {
     console.log('currData', currData)
     console.log('id', id)
 
+    setStep(0)
+
     // Replacing underEdition state
     const editedData = allStoredData?.map((item) =>
       item.id === id ? { ...item, isUnderEdition: true } : item
@@ -133,8 +131,8 @@ const App = () => {
   }
 
   return (
-    <div className="popUpContainer bg-[#282c34] flex flex-col justify-between text-white p-4 text-base">
-      <div className="flex flex-col items-start">
+    <div className="popUpContainer bg-[#16161a] flex flex-col justify-between items-center text-white text-base">
+      <div className="flex flex-col items-start p-4">
         {allStoredData?.map((item) => (
           <InfoDisplayer
             fieldType={item.property}
@@ -153,33 +151,17 @@ const App = () => {
         ))}
       </div>
 
-      <div className="flex flex-col gap-y-4 items-center p-3">
-        <AddInfoBtn onAddInfoHandler={handleAddInfoRequest} />
-
-        {step > 0 ? (
-          <TypeOfField field={selectedFieldType} onAddField={handleAddField} />
-        ) : (
-          ''
-        )}
-
-        {step > 1 ? (
-          <>
-            <InputNewInfo
-              value={infoData}
-              onTypeInfo={handleTypeNewInfo}
-              infoType={selectedFieldType}
-            />
-            <button
-              onClick={handleConfirmedNewInfo}
-              className="bg-[#7f5af0] font-semibold rounded px-3 py-[10px]"
-            >
-              Save
-            </button>
-          </>
-        ) : (
-          ''
-        )}
-      </div>
+      <Footer
+        allStoredData={allStoredData}
+        step={step}
+        inputData={infoData}
+        handleAddInfoRequest={handleAddInfoRequest}
+        selectedFieldType={selectedFieldType}
+        onAddField={handleAddField}
+        onTypeNewInfo={handleTypeNewInfo}
+        onConfirmNewInfo={handleConfirmedNewInfo}
+        onAbortAdd={() => setStep(0)}
+      />
     </div>
   )
 }

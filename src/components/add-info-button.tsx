@@ -2,15 +2,18 @@ import { FC } from 'react'
 
 interface propsType {
   onAddInfoHandler: () => void
+  step: number
+  onAbortAdd: () => void
 }
 
-const AddInfoBtn: FC<propsType> = ({ onAddInfoHandler }) => {
+const AddInfoBtn: FC<propsType> = ({ onAddInfoHandler, onAbortAdd, step }) => {
   return (
     <button
-      onClick={onAddInfoHandler}
+      // onClick={() => (step === 0 ? onAddInfoHandler : onAbortAdd)}
+      onClick={() => (step === 0 ? onAddInfoHandler() : onAbortAdd())}
       className="bg-[#7f5af0] font-semibold px-3 py-2 rounded-lg"
     >
-      Add credential
+      {step === 0 ? 'Add an input ' : 'Cancel'}
     </button>
   )
 }

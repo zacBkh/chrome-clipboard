@@ -9,8 +9,8 @@ import {
   AiOutlineClose,
 } from 'react-icons/ai'
 
-import { handleCopyClick } from './services/utils'
-import { deleteChromeStorage } from './services/chrome-storage'
+import { handleCopyClick } from '../services/utils'
+import { deleteChromeStorage } from '../services/chrome-storage'
 
 interface InfoDisplayerProps {
   fieldType: FIELD_TYPES
@@ -52,8 +52,6 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     onConfirmInfoEdit(event)
-    // setIsUnderEdition(false)
-    // PUT HANDLE EDITION FALSE HERE !!
   }
 
   useEffect(() => {
