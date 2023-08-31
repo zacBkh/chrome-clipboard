@@ -76,7 +76,7 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
           required
         ></input>
       ) : (
-        <p>{data}</p>
+        <p className="break-words">{data}</p>
       )}
 
       {isAnotherFieldUnderEdition ? (
