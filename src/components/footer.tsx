@@ -53,12 +53,6 @@ const Footer: FC<FooterProps> = ({
       }  items-center p-3 bg-[#242629] w-full`}
     >
       <div className="flex flex-col items-center gap-y-3 self-start">
-        <AddInfoBtn
-          step={step}
-          onAddInfoHandler={handleAddInfoRequest}
-          onAbortAdd={onAbortAdd}
-        />
-
         {step > 0 ? (
           <TypeOfField field={selectedFieldType} onAddField={onAddField} />
         ) : (
@@ -66,25 +60,36 @@ const Footer: FC<FooterProps> = ({
         )}
 
         {step > 1 ? (
-          <>
-            <InputNewInfo
-              value={inputData}
-              onTypeInfo={onTypeNewInfo}
-              onTypePropertyName={onTypePropertyName}
-              customProperty={customProperty}
-              infoType={selectedFieldType}
-              step={step}
-            />
-            <button
-              onClick={onConfirmNewInfo}
-              className="bg-[#7f5af0] font-semibold rounded px-3 py-[10px]"
-            >
-              Save
-            </button>
-          </>
+          <InputNewInfo
+            value={inputData}
+            onTypeInfo={onTypeNewInfo}
+            onTypePropertyName={onTypePropertyName}
+            customProperty={customProperty}
+            infoType={selectedFieldType}
+            step={step}
+          />
         ) : (
           ''
         )}
+
+        <div className="flex items-center gap-x-2">
+          {step > 1 ? (
+            <button
+              onClick={onConfirmNewInfo}
+              className="bg-[#7f5af0] font-semibold rounded px-3 py-2"
+            >
+              Save
+            </button>
+          ) : (
+            ''
+          )}
+
+          <AddInfoBtn
+            step={step}
+            onAddInfoHandler={handleAddInfoRequest}
+            onAbortAdd={onAbortAdd}
+          />
+        </div>
       </div>
 
       {step === 0 ? (
