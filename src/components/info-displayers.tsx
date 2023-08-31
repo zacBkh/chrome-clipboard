@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent, useRef, useEffect } from 'react'
+import { FC, ChangeEvent, useRef, useEffect } from 'react'
 import { FIELD_TYPES, INPUT_TYPES } from '../constants'
 
 import { BiCopy } from 'react-icons/bi'
@@ -13,14 +13,14 @@ import { handleCopyClick } from '../services/utils'
 import { deleteChromeStorage } from '../services/chrome-storage'
 
 interface InfoDisplayerProps {
-  fieldType: FIELD_TYPES
+  fieldType: string
   data: string
   value: string
   id: string
   isUnderEdition: boolean
   isAnotherFieldUnderEdition: boolean
 
-  onEditionRequest: (fieldType: FIELD_TYPES, data: string, id: string) => void
+  onEditionRequest: (fieldType: string, data: string, id: string) => void
   onTypeInfo: (data: string) => void
   onConfirmInfoEdit: (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -71,7 +71,7 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
           }
           value={value}
           className="text-white bg-[#16161A] rounded py-1 px-2"
-          type={INPUT_TYPES[fieldType]}
+          type="text"
           ref={inputRef}
           required
         ></input>

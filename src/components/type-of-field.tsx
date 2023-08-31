@@ -5,13 +5,13 @@ const { EMAIL, FIRST_NAME, LAST_NAME, COUNTRY, SELECT_DEFAULT, CUSTOM } =
   FIELD_TYPES
 
 interface propsType {
-  onAddField: (newlySelectedField: FIELD_TYPES) => void
-  field: FIELD_TYPES
+  onAddField: (newlySelectedField: string) => void
+  field: string
 }
 
 const TypeOfField: FC<propsType> = ({ onAddField, field }) => {
   const handleSelectChange = (evt: ChangeEvent<HTMLSelectElement>) => {
-    const newInfo = evt.target.value as FIELD_TYPES
+    const newInfo = evt.target.value as FIELD_TYPES | 'custom'
     onAddField(newInfo)
   }
   return (

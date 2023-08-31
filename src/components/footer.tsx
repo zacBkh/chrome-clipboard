@@ -15,8 +15,8 @@ interface FooterProps {
   step: number
   inputData: string
   handleAddInfoRequest: () => void
-  selectedFieldType: FIELD_TYPES
-  onAddField: (newlyselectedFieldType: FIELD_TYPES) => void
+  selectedFieldType: string
+  onAddField: (newlyselectedFieldType: string) => void
   onTypePropertyName: (data: string) => void
   customProperty: string
   onTypeNewInfo: (data: string) => void
@@ -45,8 +45,6 @@ const Footer: FC<FooterProps> = ({
   const isSomeDataUnderEdition = allStoredData?.some(
     (item) => item.isUnderEdition === true
   )
-
-  console.log('isSomeDataUnderEdition', isSomeDataUnderEdition)
 
   return (
     <footer

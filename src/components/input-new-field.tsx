@@ -1,13 +1,11 @@
 import { FC, ChangeEvent, useEffect, useRef } from 'react'
 
-import { FIELD_TYPES, INPUT_TYPES } from '../constants'
-
 interface InputNewInfoProps {
   value: string
   onTypeInfo: (data: string) => void
   onTypePropertyName: (data: string) => void
   customProperty: string
-  infoType: FIELD_TYPES
+  infoType: string
   step: number
 }
 
@@ -52,7 +50,7 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
         placeholder="Value: max@gmail.com, Max, United States..."
         value={value}
         className="text-white bg-[#16161A] rounded py-1 px-2"
-        type={INPUT_TYPES[infoType]}
+        type="text"
         ref={step === 2.5 ? null : inputRef}
       />
     </div>

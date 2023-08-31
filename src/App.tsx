@@ -11,7 +11,7 @@ import {
 } from './services/chrome-storage'
 
 import { FIELD_TYPES, StoredDataTypes } from './constants'
-const { SELECT_DEFAULT } = FIELD_TYPES
+const { SELECT_DEFAULT, CUSTOM } = FIELD_TYPES
 
 const App = () => {
   // 0 = nothing
@@ -20,7 +20,7 @@ const App = () => {
   const [step, setStep] = useState(0)
 
   const [selectedFieldType, setselectedFieldType] =
-    useState<FIELD_TYPES>(SELECT_DEFAULT)
+    useState<string>(SELECT_DEFAULT)
 
   const [customProperty, setCustomProperty] = useState('')
 
@@ -28,19 +28,28 @@ const App = () => {
 
   const [allStoredData, setAllStoredData] = useState<StoredDataTypes[]>()
 
-  // on button click
+  const resetUnderEdition = () => {
+    const updatedData = allStoredData?.map((item) => ({
+      ...item,
+      isUnderEdition: false,
+    }))
+    setAllStoredData(updatedData)
+  }
+
+  // on "add values" button click
   const handleAddInfoRequest = () => {
-    setselectedFieldType(SELECT_DEFAULT) //reset
+    setselectedFieldType(SELECT_DEFAULT) //reset select
+    resetUnderEdition() // if user was editing something, reset
     setStep(1)
   }
 
   // on field type click
-  const handleAddField = (newlyselectedFieldType: FIELD_TYPES) => {
+  const handleAddField = (newlyselectedFieldType: string) => {
     console.log('newlyselectedFieldType', newlyselectedFieldType)
 
     setselectedFieldType(newlyselectedFieldType)
 
-    if (newlyselectedFieldType === FIELD_TYPES.CUSTOM) {
+    if (newlyselectedFieldType === CUSTOM) {
       // if other as field type
       setStep(2.5)
     } else {
@@ -80,12 +89,8 @@ const App = () => {
           )
         : setChromeStorage(selectedFieldType, infoData)
     } else {
-      // if user click on cross, put all back to false
-      const updatedData = allStoredData?.map((item) => ({
-        ...item,
-        isUnderEdition: false,
-      }))
-      setAllStoredData(updatedData)
+      // if user click on cross, put all under edition back to false
+      resetUnderEdition()
     }
 
     //  reset
@@ -100,10 +105,12 @@ const App = () => {
         const allData = await getChromeStorageAll()
         console.log('allData', allData)
 
-        const allDataArray = Object.entries(allData).map(([key, value]) => ({
-          property: key as FIELD_TYPES,
-          value: value as string,
-          isCustom: key.includes(FIELD_TYPES.CUSTOM),
+        const allDataArray = Object.entries(allData).map(([key, val]) => ({
+          property: key,
+          isCustom:
+            key.includes(CUSTOM) ||
+            !Object.values(FIELD_TYPES).includes(key as FIELD_TYPES),
+          value: val as string,
           id: uuid(),
           isUnderEdition: false,
         }))
@@ -138,7 +145,7 @@ const App = () => {
   }, [])
 
   const handleEditionRequest = (
-    field: FIELD_TYPES,
+    field: string,
     currData: string,
     id: string
   ) => {

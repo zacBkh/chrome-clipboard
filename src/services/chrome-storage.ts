@@ -1,10 +1,6 @@
 import { FIELD_TYPES } from '../constants'
 interface setChromeStorageTypes {
-  (
-    selectedFieldType: FIELD_TYPES,
-    infoData: string,
-    customProperty?: string
-  ): void
+  (selectedFieldType: string, infoData: string, customProperty?: string): void
 }
 
 export const setChromeStorage: setChromeStorageTypes = (
@@ -15,7 +11,7 @@ export const setChromeStorage: setChromeStorageTypes = (
   try {
     chrome?.storage?.sync.set(
       customProperty
-        ? { [`${selectedFieldType}-${customProperty}`]: infoData }
+        ? { [customProperty]: infoData }
         : { [selectedFieldType]: infoData },
       () => {
         console.log('Data stored')
@@ -27,7 +23,7 @@ export const setChromeStorage: setChromeStorageTypes = (
 }
 
 interface interactWithChromeStorageTypes {
-  (selectedFieldType: FIELD_TYPES): any
+  (selectedFieldType: string): any
 }
 
 export const getChromeStorage: interactWithChromeStorageTypes = (
