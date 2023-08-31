@@ -21,41 +21,64 @@ const App = () => {
 
   const [selectedFieldType, setselectedFieldType] =
     useState<FIELD_TYPES>(SELECT_DEFAULT)
+
+  const [customProperty, setCustomProperty] = useState('')
+
   const [infoData, setInfoData] = useState('')
 
   const [allStoredData, setAllStoredData] = useState<StoredDataTypes[]>()
 
   // on button click
   const handleAddInfoRequest = () => {
-    setselectedFieldType(SELECT_DEFAULT)
+    setselectedFieldType(SELECT_DEFAULT) //reset
     setStep(1)
   }
 
   // on field type click
   const handleAddField = (newlyselectedFieldType: FIELD_TYPES) => {
-    setInfoData('')
+    console.log('newlyselectedFieldType', newlyselectedFieldType)
+
     setselectedFieldType(newlyselectedFieldType)
-    setStep(2)
+
+    if (newlyselectedFieldType === FIELD_TYPES.CUSTOM) {
+      // if other as field type
+      setStep(2.5)
+    } else {
+      setStep(2)
+    }
   }
 
   // type in field
   const handleTypeNewInfo = (data: string) => {
     setInfoData(data)
   }
+  // type in field for new property in case custom selected
+  const onTypePropertyName = (customProperty: string) => {
+    console.log('customProperty', customProperty)
+    setCustomProperty(customProperty)
+    // check if duplicate ??
+  }
 
-  // confirmed new info OR ABORT
+  // confirmed new info (click save) OR ABORT
   const handleConfirmedNewInfo = async (
     event: React.MouseEvent<HTMLButtonElement>,
     abort?: boolean
   ) => {
     console.log('selectedFieldType', selectedFieldType)
+    console.log('customProperty', customProperty)
     console.log('infoData', infoData)
     console.log('abort', abort)
     setStep(0)
 
     if (!abort) {
       // if user did not abort (clicked on cross)
-      setChromeStorage(selectedFieldType, infoData)
+      customProperty
+        ? setChromeStorage(
+            selectedFieldType,
+            infoData,
+            customProperty.toLowerCase()
+          )
+        : setChromeStorage(selectedFieldType, infoData)
     } else {
       // if user click on cross, put all back to false
       const updatedData = allStoredData?.map((item) => ({
@@ -64,6 +87,10 @@ const App = () => {
       }))
       setAllStoredData(updatedData)
     }
+
+    //  reset
+    setInfoData('')
+    setCustomProperty('')
   }
 
   // Fetch all saved info on render
@@ -76,6 +103,7 @@ const App = () => {
         const allDataArray = Object.entries(allData).map(([key, value]) => ({
           property: key as FIELD_TYPES,
           value: value as string,
+          isCustom: key.includes(FIELD_TYPES.CUSTOM),
           id: uuid(),
           isUnderEdition: false,
         }))
@@ -132,7 +160,7 @@ const App = () => {
 
   return (
     <div className="popUpContainer bg-[#16161a] flex flex-col justify-between items-center text-white text-base">
-      <div className="flex flex-col items-start p-4">
+      <div className="flex flex-col items-start p-4 w-full">
         {allStoredData?.map((item) => (
           <InfoDisplayer
             fieldType={item.property}
@@ -159,6 +187,10 @@ const App = () => {
         selectedFieldType={selectedFieldType}
         onAddField={handleAddField}
         onTypeNewInfo={handleTypeNewInfo}
+        onTypePropertyName={(evt) =>
+          step === 2.5 ? onTypePropertyName(evt) : ''
+        }
+        customProperty={step === 2.5 ? customProperty : ''}
         onConfirmNewInfo={handleConfirmedNewInfo}
         onAbortAdd={() => setStep(0)}
       />

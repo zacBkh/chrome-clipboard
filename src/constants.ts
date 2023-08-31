@@ -4,6 +4,7 @@ export enum FIELD_TYPES {
   FIRST_NAME = 'first name',
   LAST_NAME = 'last name',
   COUNTRY = 'country',
+  CUSTOM = 'custom',
 }
 
 export const INPUT_TYPES = {
@@ -12,6 +13,7 @@ export const INPUT_TYPES = {
   [FIELD_TYPES.FIRST_NAME]: 'text',
   [FIELD_TYPES.LAST_NAME]: 'text',
   [FIELD_TYPES.COUNTRY]: 'text',
+  [FIELD_TYPES.CUSTOM]: 'text',
 }
 
 export interface StoredDataTypes {

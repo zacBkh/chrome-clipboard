@@ -17,6 +17,8 @@ interface FooterProps {
   handleAddInfoRequest: () => void
   selectedFieldType: FIELD_TYPES
   onAddField: (newlyselectedFieldType: FIELD_TYPES) => void
+  onTypePropertyName: (data: string) => void
+  customProperty: string
   onTypeNewInfo: (data: string) => void
   onConfirmNewInfo: (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -34,6 +36,8 @@ const Footer: FC<FooterProps> = ({
 
   handleAddInfoRequest,
   onAddField,
+  onTypePropertyName,
+  customProperty,
   onTypeNewInfo,
   onConfirmNewInfo,
   onAbortAdd,
@@ -68,7 +72,10 @@ const Footer: FC<FooterProps> = ({
             <InputNewInfo
               value={inputData}
               onTypeInfo={onTypeNewInfo}
+              onTypePropertyName={onTypePropertyName}
+              customProperty={customProperty}
               infoType={selectedFieldType}
+              step={step}
             />
             <button
               onClick={onConfirmNewInfo}

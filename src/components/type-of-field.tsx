@@ -1,7 +1,8 @@
 import { ChangeEvent, FC } from 'react'
 
 import { FIELD_TYPES } from '../constants'
-const { EMAIL, FIRST_NAME, LAST_NAME, COUNTRY, SELECT_DEFAULT } = FIELD_TYPES
+const { EMAIL, FIRST_NAME, LAST_NAME, COUNTRY, SELECT_DEFAULT, CUSTOM } =
+  FIELD_TYPES
 
 interface propsType {
   onAddField: (newlySelectedField: FIELD_TYPES) => void
@@ -29,6 +30,7 @@ const TypeOfField: FC<propsType> = ({ onAddField, field }) => {
         <option value={FIRST_NAME}>First Name</option>
         <option value={LAST_NAME}>Last Name</option>
         <option value={COUNTRY}>Country</option>
+        <option value={CUSTOM}>Custom</option>
       </select>
     </div>
   )
