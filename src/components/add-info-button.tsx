@@ -9,11 +9,10 @@ interface propsType {
 const AddInfoBtn: FC<propsType> = ({ onAddInfoHandler, onAbortAdd, step }) => {
   return (
     <button
-      // onClick={() => (step === 0 ? onAddInfoHandler : onAbortAdd)}
       onClick={() => (step === 0 ? onAddInfoHandler() : onAbortAdd())}
       className="bg-[#7f5af0] font-semibold px-3 py-2 rounded-lg"
     >
-      {step === 0 ? 'Add an input ' : 'Cancel'}
+      {step === 0 ? 'Add values ' : 'Cancel'}
     </button>
   )
 }
