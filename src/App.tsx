@@ -28,6 +28,8 @@ const App = () => {
 
   const [allStoredData, setAllStoredData] = useState<StoredDataTypes[]>()
 
+  console.log('allStoredData', allStoredData)
+
   const resetUnderEdition = () => {
     const updatedData = allStoredData?.map((item) => ({
       ...item,
@@ -50,7 +52,7 @@ const App = () => {
     setselectedFieldType(newlyselectedFieldType)
 
     if (newlyselectedFieldType === CUSTOM) {
-      // if other as field type
+      // if field type = custom
       setStep(2.5)
     } else {
       setStep(2)
@@ -129,6 +131,7 @@ const App = () => {
         [key: string]: chrome.storage.StorageChange
       }) => {
         fetchData()
+        setStep(0)
       }
       chrome.storage.onChanged.addListener(storageChangeListener)
 
