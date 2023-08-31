@@ -22,3 +22,11 @@ export interface StoredDataTypes {
   id: string
   isUnderEdition: boolean
 }
+
+export const OPTIONS_SELECT = [
+  { storageName: 'custom', displayName: 'Custom' },
+  { storageName: 'email', displayName: 'E-Mail' },
+  { storageName: 'first name', displayName: 'First name' },
+  { storageName: 'last name', displayName: 'Surname' },
+  { storageName: 'country', displayName: 'Country' },
+]

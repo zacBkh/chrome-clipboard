@@ -2,16 +2,11 @@ import { FC } from 'react'
 
 import { AiOutlineGithub, AiOutlineTwitter } from 'react-icons/ai'
 
-import { StoredDataTypes } from '../constants'
-
 import AddInfoBtn from './add-info-button'
 import TypeOfField from './type-of-field'
 import InputNewInfo from './input-new-field'
 
-import { FIELD_TYPES } from '../constants'
-
 interface FooterProps {
-  allStoredData: StoredDataTypes[] | undefined
   step: number
   inputData: string
   handleAddInfoRequest: () => void
@@ -26,10 +21,13 @@ interface FooterProps {
   ) => Promise<void>
 
   onAbortAdd: () => void
+
+  arrayOfProperties: string[] | undefined
+
+  isDuplicatedCustomProperty: boolean
 }
 
 const Footer: FC<FooterProps> = ({
-  allStoredData,
   step,
   inputData,
   selectedFieldType,
@@ -41,11 +39,11 @@ const Footer: FC<FooterProps> = ({
   onTypeNewInfo,
   onConfirmNewInfo,
   onAbortAdd,
-}) => {
-  const isSomeDataUnderEdition = allStoredData?.some(
-    (item) => item.isUnderEdition === true
-  )
 
+  arrayOfProperties,
+
+  isDuplicatedCustomProperty,
+}) => {
   return (
     <footer
       className={`flex ${
@@ -54,7 +52,11 @@ const Footer: FC<FooterProps> = ({
     >
       <div className="flex flex-col items-center gap-y-3 self-start">
         {step > 0 ? (
-          <TypeOfField field={selectedFieldType} onAddField={onAddField} />
+          <TypeOfField
+            field={selectedFieldType}
+            onAddField={onAddField}
+            arrayOfProperties={arrayOfProperties}
+          />
         ) : (
           ''
         )}
@@ -67,16 +69,17 @@ const Footer: FC<FooterProps> = ({
             customProperty={customProperty}
             infoType={selectedFieldType}
             step={step}
+            isDuplicatedCustomProperty={isDuplicatedCustomProperty}
           />
         ) : (
           ''
         )}
 
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center gap-x-4">
           {step > 1 ? (
             <button
               onClick={onConfirmNewInfo}
-              className="bg-[#7f5af0] font-semibold rounded px-3 py-2"
+              className="bg-[#7f5af0] font-semibold px-3 py-2 rounded-lg"
             >
               Save
             </button>

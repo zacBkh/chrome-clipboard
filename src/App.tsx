@@ -28,6 +28,9 @@ const App = () => {
 
   const [allStoredData, setAllStoredData] = useState<StoredDataTypes[]>()
 
+  const [isDuplicatedCustomProperty, setIsDuplicatedCustomProperty] =
+    useState(false)
+
   console.log('allStoredData', allStoredData)
 
   const resetUnderEdition = () => {
@@ -66,8 +69,13 @@ const App = () => {
   // type in field for new property in case custom selected
   const onTypePropertyName = (customProperty: string) => {
     console.log('customProperty', customProperty)
-    setCustomProperty(customProperty)
-    // check if duplicate ??
+    console.log('arrayOfProperties', arrayOfProperties)
+    if (arrayOfProperties?.includes(customProperty.toLowerCase())) {
+      setIsDuplicatedCustomProperty(true)
+    } else {
+      isDuplicatedCustomProperty && setIsDuplicatedCustomProperty(false)
+      setCustomProperty(customProperty)
+    }
   }
 
   // confirmed new info (click save) OR ABORT
@@ -109,9 +117,7 @@ const App = () => {
 
         const allDataArray = Object.entries(allData).map(([key, val]) => ({
           property: key,
-          isCustom:
-            key.includes(CUSTOM) ||
-            !Object.values(FIELD_TYPES).includes(key as FIELD_TYPES),
+          isCustom: !Object.values(FIELD_TYPES).includes(key as FIELD_TYPES),
           value: val as string,
           id: uuid(),
           isUnderEdition: false,
@@ -168,6 +174,8 @@ const App = () => {
     setselectedFieldType(field)
   }
 
+  const arrayOfProperties = allStoredData?.map((item) => item.property)
+
   return (
     <div className="popUpContainer bg-[#16161a] flex flex-col justify-between items-center text-white text-base">
       <div className="flex flex-col items-start p-4 w-full">
@@ -190,7 +198,6 @@ const App = () => {
       </div>
 
       <Footer
-        allStoredData={allStoredData}
         step={step}
         inputData={infoData}
         handleAddInfoRequest={handleAddInfoRequest}
@@ -203,6 +210,8 @@ const App = () => {
         customProperty={step === 2.5 ? customProperty : ''}
         onConfirmNewInfo={handleConfirmedNewInfo}
         onAbortAdd={() => setStep(0)}
+        arrayOfProperties={arrayOfProperties}
+        isDuplicatedCustomProperty={isDuplicatedCustomProperty}
       />
     </div>
   )

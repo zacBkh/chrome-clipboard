@@ -1,5 +1,7 @@
 import { FC, ChangeEvent, useEffect, useRef } from 'react'
 
+import { AiOutlineInfoCircle } from 'react-icons/ai'
+
 interface InputNewInfoProps {
   value: string
   onTypeInfo: (data: string) => void
@@ -7,6 +9,7 @@ interface InputNewInfoProps {
   customProperty: string
   infoType: string
   step: number
+  isDuplicatedCustomProperty: boolean
 }
 
 const InputNewInfo: FC<InputNewInfoProps> = ({
@@ -18,6 +21,8 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
   onTypeInfo,
 
   step,
+
+  isDuplicatedCustomProperty,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -27,18 +32,32 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
 
   // if custom
   return (
-    <div className="flex gap-x-3 items-center">
+    <div className="flex gap-x-3 items-start">
       {step === 2.5 ? (
-        <input
-          placeholder="Property: E-mail, first name, country..."
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            onTypePropertyName(e.target.value)
-          }
-          value={customProperty}
-          className="text-white bg-[#16161A] rounded py-1 px-2"
-          type={'text'}
-          ref={step === 2.5 ? inputRef : null}
-        />
+        <div className="flex flex-col gap-y-2">
+          <input
+            placeholder="Property: E-mail, first name, country..."
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              onTypePropertyName(e.target.value)
+            }
+            value={customProperty}
+            className={`text-white bg-[#16161A] rounded py-1 px-2 ${
+              isDuplicatedCustomProperty
+                ? 'outline outline-1 outline-rose-500'
+                : ''
+            }`}
+            type={'text'}
+            ref={step === 2.5 ? inputRef : null}
+          />
+          {isDuplicatedCustomProperty ? (
+            <div className="flex items-center gap-x-1 text-rose-500 ">
+              <span className="text-xs">This property already exists</span>
+              <AiOutlineInfoCircle className="mt-[3px]" />
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
       ) : (
         ''
       )}
