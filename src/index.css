@@ -18,5 +18,5 @@ code {
 
 .popUpContainer {
   min-width: 450px;
-  min-height: 500px;
+  min-height: fit-content;
 }

@@ -1,4 +1,3 @@
-import { FIELD_TYPES } from '../constants'
 interface setChromeStorageTypes {
   (selectedFieldType: string, infoData: string, customProperty?: string): void
 }

@@ -13,6 +13,11 @@ import {
 import NoDataSVG from '../src/assets/no-data.svg'
 
 import { FIELD_TYPES, StoredDataTypes } from './constants'
+
+import SearchBar from './components/search-bar'
+
+import filterArray from './services/filter-properties'
+
 const { SELECT_DEFAULT, CUSTOM } = FIELD_TYPES
 
 const App = () => {
@@ -32,6 +37,8 @@ const App = () => {
 
   const [isDuplicatedCustomProperty, setIsDuplicatedCustomProperty] =
     useState(false)
+
+  const [searchQuery, setSearchQuery] = useState('')
 
   console.log('allStoredData', allStoredData)
 
@@ -208,12 +215,25 @@ const App = () => {
     setselectedFieldType('')
   }
 
+  const typeSearchHandler = (searchedQuery: string) => {
+    console.log('searchedQuery', searchedQuery)
+    setSearchQuery(searchedQuery)
+  }
+
+  const filteredStoredData = filterArray(allStoredData, searchQuery)
+
   return (
-    <div className="popUpContainer bg-[#16161a] flex flex-col justify-between items-center text-white text-base">
+    <div className="popUpContainer bg-[#16161a] flex flex-col justify-between items-center text-white text-base gap-y-4">
+      <SearchBar
+        onTypeSearchBar={typeSearchHandler}
+        searchQuery={searchQuery}
+        onDeleteSearchQuery={() => setSearchQuery('')}
+      />
+
       {!allStoredData.length ? (
-        <div className="m-auto flex flex-col items-center gap-y-2 select-none">
+        <div className="m-auto flex flex-col items-center gap-y-2 select-none w-full">
           <img
-            className="w-full"
+            className="w-[75%]"
             src={NoDataSVG}
             alt="Icon showing there is no data"
           />
@@ -229,14 +249,14 @@ const App = () => {
         </div>
       ) : (
         <div className="flex flex-col items-start p-4 w-full">
-          {allStoredData.map((item) => (
+          {filteredStoredData.map((item) => (
             <InfoDisplayer
               fieldType={item.property}
               data={item.value} //<p>
               value={infoData} // <input>
               id={item.id}
               isUnderEdition={item.isUnderEdition}
-              isAnotherFieldUnderEdition={allStoredData.some(
+              isAnotherFieldUnderEdition={filteredStoredData.some(
                 (elem) => elem.isUnderEdition && elem.id !== item.id
               )}
               onEditionRequest={handleEditionRequest}

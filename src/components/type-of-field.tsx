@@ -42,6 +42,8 @@ const TypeOfField: FC<propsType> = ({
                 {elem.displayName}
               </option>
             )
+          } else {
+            return
           }
         })}
       </select>
