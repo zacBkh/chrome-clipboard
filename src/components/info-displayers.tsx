@@ -1,5 +1,4 @@
-import { FC, ChangeEvent, useRef, useEffect } from 'react'
-import { FIELD_TYPES, INPUT_TYPES } from '../constants'
+import { FC, ChangeEvent, useRef, useEffect, useState } from 'react'
 
 import { BiCopy } from 'react-icons/bi'
 import {
@@ -21,7 +20,7 @@ interface InfoDisplayerProps {
   isAnotherFieldUnderEdition: boolean
 
   onEditionRequest: (fieldType: string, data: string, id: string) => void
-  onTypeInfo: (data: string) => void
+  onTypeInfoEdit: (data: string) => void
   onConfirmInfoEdit: (
     event: React.MouseEvent<HTMLButtonElement>,
     abort?: boolean
@@ -37,9 +36,11 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
   isAnotherFieldUnderEdition,
 
   onEditionRequest,
-  onTypeInfo,
+  onTypeInfoEdit,
   onConfirmInfoEdit,
 }) => {
+  const [copyShouldBeCheckIcon, setCopyShouldBeCheckIcon] = useState(false)
+
   const inputRef = useRef<HTMLInputElement>(null)
 
   const style = 'p-2 bg-transparent hover:bg-[#a2a3a35c] rounded'
@@ -60,6 +61,11 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
     }
   }, [isUnderEdition])
 
+  const handleUserCopied = () => {
+    setCopyShouldBeCheckIcon(true)
+    setTimeout(() => setCopyShouldBeCheckIcon(false), 1000)
+  }
+
   return (
     <div className="flex gap-x-4 items-center w-full justify-between mx-auto px-2 min-h-[40px]">
       {/* <p>{fieldType}</p> */}
@@ -67,7 +73,7 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
       {isUnderEdition ? (
         <input
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            onTypeInfo(e.target.value)
+            onTypeInfoEdit(e.target.value)
           }
           value={value}
           className="text-white bg-[#16161A] rounded py-1 px-2"
@@ -111,10 +117,17 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
           </button>
 
           <button
-            onClick={() => handleCopyClick(data)}
+            onClick={() => {
+              handleCopyClick(data)
+              handleUserCopied()
+            }}
             className={`${style} ${isUnderEdition ? 'invisible' : ''}`}
           >
-            <BiCopy title="Copy this entry" />
+            {copyShouldBeCheckIcon ? (
+              <AiOutlineCheck />
+            ) : (
+              <BiCopy title="Copy this entry" />
+            )}
           </button>
         </div>
       )}

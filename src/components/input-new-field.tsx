@@ -2,6 +2,8 @@ import { FC, ChangeEvent, useEffect, useRef } from 'react'
 
 import { AiOutlineInfoCircle } from 'react-icons/ai'
 
+import { PLACEHOLDER_LOOKUP } from '../constants'
+
 interface InputNewInfoProps {
   value: string
   onTypeInfo: (data: string) => void
@@ -30,13 +32,16 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
     inputRef?.current?.focus()
   }, [infoType])
 
+  const placeholderValue =
+    PLACEHOLDER_LOOKUP[infoType as keyof typeof PLACEHOLDER_LOOKUP]
+
   // if custom
   return (
     <div className="flex gap-x-3 items-start">
       {step === 2.5 ? (
         <div className="flex flex-col gap-y-2">
           <input
-            placeholder="Property: E-mail, first name, country..."
+            placeholder="e.g: Social security number"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               onTypePropertyName(e.target.value)
             }
@@ -66,7 +71,7 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           onTypeInfo(e.target.value)
         }
-        placeholder="Value: max@gmail.com, Max, United States..."
+        placeholder={placeholderValue}
         value={value}
         className="text-white bg-[#16161A] rounded py-1 px-2"
         type="text"

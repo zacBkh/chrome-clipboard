@@ -10,6 +10,8 @@ import {
   getChromeStorageAll,
 } from './services/chrome-storage'
 
+import NoDataSVG from '../src/assets/no-data.svg'
+
 import { FIELD_TYPES, StoredDataTypes } from './constants'
 const { SELECT_DEFAULT, CUSTOM } = FIELD_TYPES
 
@@ -26,7 +28,7 @@ const App = () => {
 
   const [infoData, setInfoData] = useState('')
 
-  const [allStoredData, setAllStoredData] = useState<StoredDataTypes[]>()
+  const [allStoredData, setAllStoredData] = useState<StoredDataTypes[]>([])
 
   const [isDuplicatedCustomProperty, setIsDuplicatedCustomProperty] =
     useState(false)
@@ -43,6 +45,10 @@ const App = () => {
 
   // on "add values" button click
   const handleAddInfoRequest = () => {
+    if (step !== 0) {
+      return
+    }
+
     setselectedFieldType(SELECT_DEFAULT) //reset select
     resetUnderEdition() // if user was editing something, reset
     setStep(1)
@@ -62,9 +68,12 @@ const App = () => {
     }
   }
 
-  // type in field
-  const handleTypeNewInfo = (data: string) => {
-    setInfoData(data)
+  // type in field value
+  const handleTypeNewInfo = (newData: string) => {
+    if (newData.trim() === '') {
+      return
+    }
+    setInfoData(newData)
   }
   // type in field for new property in case custom selected
   const onTypePropertyName = (customProperty: string) => {
@@ -72,10 +81,13 @@ const App = () => {
     console.log('arrayOfProperties', arrayOfProperties)
     if (arrayOfProperties?.includes(customProperty.toLowerCase())) {
       setIsDuplicatedCustomProperty(true)
-    } else {
-      isDuplicatedCustomProperty && setIsDuplicatedCustomProperty(false)
-      setCustomProperty(customProperty)
     }
+
+    if (isDuplicatedCustomProperty) {
+      setIsDuplicatedCustomProperty(false)
+    }
+
+    setCustomProperty(customProperty)
   }
 
   // confirmed new info (click save) OR ABORT
@@ -88,6 +100,19 @@ const App = () => {
     console.log('infoData', infoData)
     console.log('abort', abort)
     setStep(0)
+
+    // const isPropertyEmpty =
+    //   selectedFieldType.trim() === '' || customProperty.trim() === '' // if no property or if property is default custom without typing
+    // console.log('isPropertyEmpty', isPropertyEmpty)
+
+    const isValueEmpty = infoData.trim() === ''
+    if (isValueEmpty) {
+      setInfoData('')
+      setCustomProperty('')
+      return
+      // PUT HERE NICE INTERFACE RED
+    }
+    console.log('isValueEmpty', isValueEmpty)
 
     if (!abort) {
       // if user did not abort (clicked on cross)
@@ -176,27 +201,52 @@ const App = () => {
 
   const arrayOfProperties = allStoredData?.map((item) => item.property)
 
+  const resetStates = () => {
+    setStep(0)
+    setInfoData('')
+    setCustomProperty('')
+    setselectedFieldType('')
+  }
+
   return (
     <div className="popUpContainer bg-[#16161a] flex flex-col justify-between items-center text-white text-base">
-      <div className="flex flex-col items-start p-4 w-full">
-        {allStoredData?.map((item) => (
-          <InfoDisplayer
-            fieldType={item.property}
-            data={item.value} //<p>
-            value={infoData} // <input>
-            id={item.id}
-            isUnderEdition={item.isUnderEdition}
-            isAnotherFieldUnderEdition={allStoredData.some(
-              (elem) => elem.isUnderEdition && elem.id !== item.id
-            )}
-            onEditionRequest={handleEditionRequest}
-            onTypeInfo={handleTypeNewInfo}
-            onConfirmInfoEdit={handleConfirmedNewInfo}
-            key={item.id}
+      {!allStoredData.length ? (
+        <div className="m-auto flex flex-col items-center gap-y-2 select-none">
+          <img
+            className="w-full"
+            src={NoDataSVG}
+            alt="Icon showing there is no data"
           />
-        ))}
-      </div>
-
+          <p className="text-center">
+            Seems you don't have data yet...😭{' '}
+            <span
+              onClick={handleAddInfoRequest}
+              className="text-[#7f5af0] hover:underline cursor-pointer font-semibold"
+            >
+              Try adding some.
+            </span>
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col items-start p-4 w-full">
+          {allStoredData.map((item) => (
+            <InfoDisplayer
+              fieldType={item.property}
+              data={item.value} //<p>
+              value={infoData} // <input>
+              id={item.id}
+              isUnderEdition={item.isUnderEdition}
+              isAnotherFieldUnderEdition={allStoredData.some(
+                (elem) => elem.isUnderEdition && elem.id !== item.id
+              )}
+              onEditionRequest={handleEditionRequest}
+              onTypeInfoEdit={handleTypeNewInfo}
+              onConfirmInfoEdit={handleConfirmedNewInfo}
+              key={item.id}
+            />
+          ))}
+        </div>
+      )}
       <Footer
         step={step}
         inputData={infoData}
@@ -209,7 +259,7 @@ const App = () => {
         }
         customProperty={step === 2.5 ? customProperty : ''}
         onConfirmNewInfo={handleConfirmedNewInfo}
-        onAbortAdd={() => setStep(0)}
+        onAbortAdd={resetStates}
         arrayOfProperties={arrayOfProperties}
         isDuplicatedCustomProperty={isDuplicatedCustomProperty}
       />

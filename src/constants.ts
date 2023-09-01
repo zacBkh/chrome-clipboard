@@ -7,13 +7,13 @@ export enum FIELD_TYPES {
   CUSTOM = 'custom',
 }
 
-export const INPUT_TYPES = {
-  [FIELD_TYPES.SELECT_DEFAULT]: 'xx',
-  [FIELD_TYPES.EMAIL]: 'email',
-  [FIELD_TYPES.FIRST_NAME]: 'text',
-  [FIELD_TYPES.LAST_NAME]: 'text',
-  [FIELD_TYPES.COUNTRY]: 'text',
-  [FIELD_TYPES.CUSTOM]: 'text',
+export const PLACEHOLDER_LOOKUP = {
+  // [FIELD_TYPES.SELECT_DEFAULT]: 'xx',
+  [FIELD_TYPES.EMAIL]: 'alex@gmail.com',
+  [FIELD_TYPES.FIRST_NAME]: 'Alex',
+  [FIELD_TYPES.LAST_NAME]: 'Taylor',
+  [FIELD_TYPES.COUNTRY]: 'United States',
+  [FIELD_TYPES.CUSTOM]: '123-45-6789',
 }
 
 export interface StoredDataTypes {
