@@ -43,7 +43,7 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const style = 'p-2 bg-transparent hover:bg-[#a2a3a35c] rounded'
+  const style = 'p-2 bg-transparent hover:bg-[#a2a3a35c] rounded w-8 h-8'
 
   const handleEditionRequest = () => {
     onEditionRequest(fieldType, data, id)
@@ -121,13 +121,19 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
               handleCopyClick(data)
               handleUserCopied()
             }}
-            className={`${style} ${isUnderEdition ? 'invisible' : ''}`}
+            className={`${style} ${isUnderEdition ? 'invisible' : ''} `}
           >
-            {copyShouldBeCheckIcon ? (
-              <AiOutlineCheck />
-            ) : (
-              <BiCopy title="Copy this entry" />
-            )}
+            <BiCopy
+              title="Copy this entry"
+              className={`${
+                copyShouldBeCheckIcon ? 'h-0 opacity-0' : 'h-4 opacity-100'
+              } transition-all duration-300`}
+            />
+            <AiOutlineCheck
+              className={`${
+                copyShouldBeCheckIcon ? 'h-4 opacity-100' : 'h-0 opacity-0'
+              } transition-all duration-300`}
+            />
           </button>
         </div>
       )}
