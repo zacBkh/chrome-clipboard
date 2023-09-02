@@ -29,7 +29,7 @@ const SearchBar: FC<SearchBarProps> = ({
         onChange={typeSearchHandler}
         value={searchQuery}
         ref={inputRef}
-        placeholder="Search for a property name: address, birth date..."
+        placeholder="Search within your saved records 👇🏼"
         className="relative text-white bg-dark-secondary py-2 pl-10 pr-8 outline-none focus:outline-purple-primary outline-offset-1 rounded-lg !w-full"
       />
 

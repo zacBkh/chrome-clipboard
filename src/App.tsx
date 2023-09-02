@@ -59,6 +59,7 @@ const App = () => {
     setselectedFieldType(SELECT_DEFAULT) //reset select
     resetUnderEdition() // if user was editing something, reset
     setStep(1)
+    setIsDuplicatedCustomProperty(false)
   }
 
   // on field type click
@@ -84,9 +85,7 @@ const App = () => {
   const onTypePropertyName = (customProperty: string) => {
     if (arrayOfProperties?.includes(customProperty.toLowerCase())) {
       setIsDuplicatedCustomProperty(true)
-    }
-
-    if (isDuplicatedCustomProperty) {
+    } else {
       setIsDuplicatedCustomProperty(false)
     }
 
@@ -145,6 +144,7 @@ const App = () => {
         console.error('Error while getting data:', error)
       }
     }
+
     fetchData()
 
     try {
@@ -163,7 +163,7 @@ const App = () => {
       }
     } catch (error) {
       console.log(
-        'There has been an error registering to the onChanged event',
+        'There has been an error registering to the onChanged event ❌',
         error
       )
     }
@@ -228,7 +228,7 @@ const App = () => {
           />
         </div>
       ) : (
-        <div className="flex flex-col items-start p-4 w-full">
+        <div className="flex flex-col items-start p-4 w-full max-h-[420px] overflow-y-auto">
           {filteredStoredData.map((item) => (
             <InfoDisplayer
               fieldType={item.property}

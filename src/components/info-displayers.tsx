@@ -67,7 +67,7 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
   }
 
   return (
-    <div className="flex gap-x-4 items-center w-full justify-between mx-auto px-2 min-h-[40px]">
+    <div className="flex gap-x-4 items-center w-full justify-between mx-auto px-2">
       {/* <p>{fieldType}</p> */}
 
       {isUnderEdition ? (
@@ -82,7 +82,7 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
           required
         ></input>
       ) : (
-        <p className="break-words">{data}</p>
+        <p className="break-words lineBreak max-w-[82%]">{data}</p>
       )}
 
       {isAnotherFieldUnderEdition ? (

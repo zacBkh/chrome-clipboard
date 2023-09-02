@@ -78,8 +78,9 @@ const Footer: FC<FooterProps> = ({
         <div className="flex items-center gap-x-4">
           {step > 1 ? (
             <button
+              disabled={isDuplicatedCustomProperty}
               onClick={onConfirmNewInfo}
-              className="bg-purple-primary font-semibold px-3 py-2 rounded-lg"
+              className="bg-purple-primary disabled:opacity-40 disabled:cursor-not-allowed font-semibold px-3 py-2 rounded-lg"
             >
               Save
             </button>
