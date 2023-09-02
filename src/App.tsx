@@ -226,11 +226,15 @@ const App = () => {
 
   return (
     <div className="popUpContainer bg-dark-primary flex flex-col justify-between items-center text-white text-base gap-y-4">
-      <SearchBar
-        onTypeSearchBar={typeSearchHandler}
-        searchQuery={searchQuery}
-        onDeleteSearchQuery={() => setSearchQuery('')}
-      />
+      {allStoredData.length ? (
+        <SearchBar
+          onTypeSearchBar={typeSearchHandler}
+          searchQuery={searchQuery}
+          onDeleteSearchQuery={() => setSearchQuery('')}
+        />
+      ) : (
+        ''
+      )}
 
       {!filteredStoredData.length ? (
         <div className="m-auto flex flex-col items-center gap-y-2 select-none w-full">
