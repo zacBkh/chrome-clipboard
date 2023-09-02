@@ -24,7 +24,7 @@ export interface StoredDataTypes {
 }
 
 export const OPTIONS_SELECT = [
-  { storageName: 'custom', displayName: 'Custom' },
+  { storageName: 'custom', displayName: 'Custom 💖' },
   { storageName: 'email', displayName: 'E-Mail' },
   { storageName: 'first name', displayName: 'First name' },
   { storageName: 'last name', displayName: 'Surname' },

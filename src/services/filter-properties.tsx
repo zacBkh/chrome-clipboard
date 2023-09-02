@@ -4,8 +4,7 @@ const filterArray = (
   allStoredData: StoredDataTypes[],
   searchedQuery: string
 ) => {
-  if (!searchedQuery) {
-    console.log('1', 1)
+  if (!searchedQuery.trim()) {
     return allStoredData
   } else {
     const filteredProperties = allStoredData.filter((prop) =>
@@ -14,7 +13,6 @@ const filterArray = (
         .toLowerCase()
         .includes(searchedQuery.trim().toLowerCase())
     )
-    console.log('2', 2)
     return filteredProperties
   }
 }

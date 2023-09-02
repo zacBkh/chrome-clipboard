@@ -18,6 +18,8 @@ import SearchBar from './components/search-bar'
 
 import filterArray from './services/filter-properties'
 
+import DataUserFeedback from './components/data-user-feeback'
+
 const { SELECT_DEFAULT, CUSTOM } = FIELD_TYPES
 
 const App = () => {
@@ -223,29 +225,26 @@ const App = () => {
   const filteredStoredData = filterArray(allStoredData, searchQuery)
 
   return (
-    <div className="popUpContainer bg-[#16161a] flex flex-col justify-between items-center text-white text-base gap-y-4">
+    <div className="popUpContainer bg-dark-primary flex flex-col justify-between items-center text-white text-base gap-y-4">
       <SearchBar
         onTypeSearchBar={typeSearchHandler}
         searchQuery={searchQuery}
         onDeleteSearchQuery={() => setSearchQuery('')}
       />
 
-      {!allStoredData.length ? (
+      {!filteredStoredData.length ? (
         <div className="m-auto flex flex-col items-center gap-y-2 select-none w-full">
           <img
-            className="w-[75%]"
+            className="w-[70%]"
             src={NoDataSVG}
             alt="Icon showing there is no data"
           />
-          <p className="text-center">
-            Seems you don't have data yet...😭{' '}
-            <span
-              onClick={handleAddInfoRequest}
-              className="text-[#7f5af0] hover:underline cursor-pointer font-semibold"
-            >
-              Try adding some.
-            </span>
-          </p>
+
+          <DataUserFeedback
+            searchQuery={searchQuery}
+            onResetSearchQuery={() => setSearchQuery('')}
+            onAddInfoRequest={handleAddInfoRequest}
+          />
         </div>
       ) : (
         <div className="flex flex-col items-start p-4 w-full">

@@ -22,7 +22,7 @@ const SearchBar: FC<SearchBarProps> = ({
   return (
     <div className="relative flex justify-center items-center w-[90%] mt-4">
       <div className="z-50 absolute left-[2%]">
-        <AiOutlineSearch className="mr-2 text-[#99A1B3] w-[18px]" />
+        <AiOutlineSearch className="mr-2 text-purple-primary w-[18px]" />
       </div>
 
       <input
@@ -30,18 +30,22 @@ const SearchBar: FC<SearchBarProps> = ({
         value={searchQuery}
         ref={inputRef}
         placeholder="Search for a property name: address, birth date..."
-        className="relative text-white bg-[#242629] py-2 pl-10 pr-8 outline-none focus:outline-[#7F5AF0] outline-offset-1 rounded-lg !w-full"
+        className="relative text-white bg-dark-secondary py-2 pl-10 pr-8 outline-none focus:outline-purple-primary outline-offset-1 rounded-lg !w-full"
       />
 
-      <div
-        onClick={() => {
-          onDeleteSearchQuery()
-          inputRef.current?.focus()
-        }}
-        className="absolute right-2 cursor-pointer"
-      >
-        <AiOutlineClose className="text-[#99A1B3] w-[18px]" />
-      </div>
+      {searchQuery.trim().length ? (
+        <div
+          onClick={() => {
+            onDeleteSearchQuery()
+            inputRef.current?.focus()
+          }}
+          className="absolute right-2 cursor-pointer"
+        >
+          <AiOutlineClose className="text-purple-primary w-[18px]" />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   )
 }

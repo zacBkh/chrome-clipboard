@@ -43,7 +43,7 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const style = 'p-2 bg-transparent hover:bg-[#a2a3a35c] rounded w-8 h-8'
+  const style = 'p-2 bg-transparent hover:bg-grey-hover rounded w-8 h-8'
 
   const handleEditionRequest = () => {
     onEditionRequest(fieldType, data, id)
@@ -76,7 +76,7 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
             onTypeInfoEdit(e.target.value)
           }
           value={value}
-          className="text-white bg-[#16161A] rounded py-1 px-2"
+          className="outlineFocusInput text-white bg-dark-secondary rounded py-1 px-2"
           type="text"
           ref={inputRef}
           required

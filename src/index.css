@@ -20,3 +20,11 @@ code {
   min-width: 450px;
   min-height: fit-content;
 }
+
+.lineBreak {
+  line-break: anywhere;
+}
+
+.outlineFocusInput:focus {
+  @apply outline-none focus:outline-purple-primary outline-offset-1;
+}

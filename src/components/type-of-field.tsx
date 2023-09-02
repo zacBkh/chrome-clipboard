@@ -29,7 +29,9 @@ const TypeOfField: FC<propsType> = ({
         onChange={handleSelectChange}
       >
         {field === SELECT_DEFAULT && (
-          <option value={SELECT_DEFAULT}>Select...</option>
+          <option className="bg-dark-primary" value={SELECT_DEFAULT}>
+            Select...
+          </option>
         )}
 
         {OPTIONS_SELECT.map((elem) => {
@@ -38,12 +40,16 @@ const TypeOfField: FC<propsType> = ({
             elem.storageName === CUSTOM
           ) {
             return (
-              <option key={elem.storageName} value={elem.storageName}>
+              <option
+                className="bg-dark-primary"
+                key={elem.storageName}
+                value={elem.storageName}
+              >
                 {elem.displayName}
               </option>
             )
           } else {
-            return
+            return null
           }
         })}
       </select>

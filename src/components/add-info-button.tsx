@@ -11,7 +11,7 @@ const AddInfoBtn: FC<propsType> = ({ onAddInfoHandler, onAbortAdd, step }) => {
     <button
       onClick={() => (step === 0 ? onAddInfoHandler() : onAbortAdd())}
       className={`${
-        step >= 2 ? 'bg-[#8b6aee]' : 'bg-[#7f5af0]'
+        step >= 2 ? 'bg-purple-secondary' : 'bg-purple-primary'
       } font-semibold px-3 py-2 rounded-lg`}
     >
       {step === 0 ? 'Add values ' : 'Cancel'}

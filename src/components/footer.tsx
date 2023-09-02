@@ -48,7 +48,7 @@ const Footer: FC<FooterProps> = ({
     <footer
       className={`flex ${
         step === 0 ? 'justify-between' : 'justify-center'
-      }  items-center p-3 bg-[#242629] w-full`}
+      }  items-center p-3 bg-dark-secondary w-full`}
     >
       <div className="flex flex-col items-center gap-y-3 self-start">
         {step > 0 ? (
@@ -79,7 +79,7 @@ const Footer: FC<FooterProps> = ({
           {step > 1 ? (
             <button
               onClick={onConfirmNewInfo}
-              className="bg-[#7f5af0] font-semibold px-3 py-2 rounded-lg"
+              className="bg-purple-primary font-semibold px-3 py-2 rounded-lg"
             >
               Save
             </button>
@@ -98,7 +98,7 @@ const Footer: FC<FooterProps> = ({
       {step === 0 ? (
         <div className="flex items-center gap-x-4 text-2xl">
           <a
-            className="hover:text-[#7f5af0]"
+            className="hover:text-purple-primary"
             href={'https://github.com/zacBkh'}
             target="_blank"
             rel="noopener noreferrer"
@@ -107,7 +107,7 @@ const Footer: FC<FooterProps> = ({
           </a>
 
           <a
-            className="hover:text-[#7f5af0]"
+            className="hover:text-purple-primary"
             href={'https://twitter.com/zacFullStack'}
             target="_blank"
             rel="noopener noreferrer"

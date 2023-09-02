@@ -35,6 +35,8 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
   const placeholderValue =
     PLACEHOLDER_LOOKUP[infoType as keyof typeof PLACEHOLDER_LOOKUP]
 
+  const inputCSS =
+    'text-white bg-dark-primary rounded py-1 px-2 outlineFocusInput'
   // if custom
   return (
     <div className="flex gap-x-3 items-start">
@@ -46,7 +48,7 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
               onTypePropertyName(e.target.value)
             }
             value={customProperty}
-            className={`text-white bg-[#16161A] rounded py-1 px-2 ${
+            className={`${inputCSS} ${
               isDuplicatedCustomProperty
                 ? 'outline outline-1 outline-rose-500'
                 : ''
@@ -73,7 +75,7 @@ const InputNewInfo: FC<InputNewInfoProps> = ({
         }
         placeholder={placeholderValue}
         value={value}
-        className="text-white bg-[#16161A] rounded py-1 px-2"
+        className={inputCSS}
         type="text"
         ref={step === 2.5 ? null : inputRef}
       />
