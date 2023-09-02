@@ -13,7 +13,7 @@ export const setChromeStorage: setChromeStorageTypes = (
         ? { [customProperty]: infoData }
         : { [selectedFieldType]: infoData },
       () => {
-        console.log('Data stored')
+        console.log('Chrome Clipboard successfully stored your data ✅')
       }
     )
   } catch (error) {
@@ -46,6 +46,5 @@ export const getChromeStorageAll = (): any => {
 export const deleteChromeStorage: interactWithChromeStorageTypes = async (
   fieldToDelete
 ) => {
-  console.log('fieldToDelete', fieldToDelete)
   await chrome?.storage?.sync.remove([fieldToDelete])
 }

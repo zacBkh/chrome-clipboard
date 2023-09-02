@@ -42,8 +42,6 @@ const App = () => {
 
   const [searchQuery, setSearchQuery] = useState('')
 
-  console.log('allStoredData', allStoredData)
-
   const resetUnderEdition = () => {
     const updatedData = allStoredData?.map((item) => ({
       ...item,
@@ -65,8 +63,6 @@ const App = () => {
 
   // on field type click
   const handleAddField = (newlyselectedFieldType: string) => {
-    console.log('newlyselectedFieldType', newlyselectedFieldType)
-
     setselectedFieldType(newlyselectedFieldType)
 
     if (newlyselectedFieldType === CUSTOM) {
@@ -86,8 +82,6 @@ const App = () => {
   }
   // type in field for new property in case custom selected
   const onTypePropertyName = (customProperty: string) => {
-    console.log('customProperty', customProperty)
-    console.log('arrayOfProperties', arrayOfProperties)
     if (arrayOfProperties?.includes(customProperty.toLowerCase())) {
       setIsDuplicatedCustomProperty(true)
     }
@@ -104,24 +98,14 @@ const App = () => {
     event: React.MouseEvent<HTMLButtonElement>,
     abort?: boolean
   ) => {
-    console.log('selectedFieldType', selectedFieldType)
-    console.log('customProperty', customProperty)
-    console.log('infoData', infoData)
-    console.log('abort', abort)
     setStep(0)
-
-    // const isPropertyEmpty =
-    //   selectedFieldType.trim() === '' || customProperty.trim() === '' // if no property or if property is default custom without typing
-    // console.log('isPropertyEmpty', isPropertyEmpty)
 
     const isValueEmpty = infoData.trim() === ''
     if (isValueEmpty) {
       setInfoData('')
       setCustomProperty('')
       return
-      // PUT HERE NICE INTERFACE RED
     }
-    console.log('isValueEmpty', isValueEmpty)
 
     if (!abort) {
       // if user did not abort (clicked on cross)
@@ -147,7 +131,6 @@ const App = () => {
     const fetchData = async () => {
       try {
         const allData = await getChromeStorageAll()
-        console.log('allData', allData)
 
         const allDataArray = Object.entries(allData).map(([key, val]) => ({
           property: key,
@@ -157,7 +140,6 @@ const App = () => {
           isUnderEdition: false,
         }))
 
-        console.log('allDataArray', allDataArray)
         setAllStoredData(allDataArray)
       } catch (error) {
         console.error('Error while getting data:', error)
@@ -181,7 +163,7 @@ const App = () => {
       }
     } catch (error) {
       console.log(
-        'there has been an error registering to the onChanged event',
+        'There has been an error registering to the onChanged event',
         error
       )
     }
@@ -192,10 +174,6 @@ const App = () => {
     currData: string,
     id: string
   ) => {
-    console.log('field', field)
-    console.log('currData', currData)
-    console.log('id', id)
-
     setStep(0)
 
     // Replacing underEdition state
@@ -218,7 +196,6 @@ const App = () => {
   }
 
   const typeSearchHandler = (searchedQuery: string) => {
-    console.log('searchedQuery', searchedQuery)
     setSearchQuery(searchedQuery)
   }
 
