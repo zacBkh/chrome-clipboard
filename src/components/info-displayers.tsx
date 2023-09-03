@@ -90,6 +90,26 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
       ) : (
         <div className="text-white flex items-center">
           <button
+            onClick={() => {
+              handleCopyClick(data)
+              handleUserCopied()
+            }}
+            className={`${style} ${isUnderEdition ? 'invisible' : ''} `}
+          >
+            <BiCopy
+              title="Copy this entry"
+              className={`${
+                copyShouldBeCheckIcon ? 'h-0 opacity-0' : 'h-4 opacity-100'
+              } transition-all duration-300`}
+            />
+            <AiOutlineCheck
+              className={`${
+                copyShouldBeCheckIcon ? 'h-4 opacity-100' : 'h-0 opacity-0'
+              } transition-all duration-300`}
+            />
+          </button>
+
+          <button
             onClick={
               isUnderEdition ? hanldeConfirmEdition : handleEditionRequest
             }
@@ -114,26 +134,6 @@ const InfoDisplayer: FC<InfoDisplayerProps> = ({
             ) : (
               <AiOutlineDelete title="Delete this entry" />
             )}
-          </button>
-
-          <button
-            onClick={() => {
-              handleCopyClick(data)
-              handleUserCopied()
-            }}
-            className={`${style} ${isUnderEdition ? 'invisible' : ''} `}
-          >
-            <BiCopy
-              title="Copy this entry"
-              className={`${
-                copyShouldBeCheckIcon ? 'h-0 opacity-0' : 'h-4 opacity-100'
-              } transition-all duration-300`}
-            />
-            <AiOutlineCheck
-              className={`${
-                copyShouldBeCheckIcon ? 'h-4 opacity-100' : 'h-0 opacity-0'
-              } transition-all duration-300`}
-            />
           </button>
         </div>
       )}
